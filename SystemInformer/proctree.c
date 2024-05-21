@@ -51,6 +51,7 @@ typedef enum _PHP_AGGREGATE_TYPE
 typedef enum _PHP_AGGREGATE_LOCATION
 {
     AggregateLocationProcessNode,
+    AggregateLocationProcessChildren,
     AggregateLocationProcessItem
 } PHP_AGGREGATE_LOCATION;
 
@@ -842,6 +843,9 @@ FORCEINLINE PVOID PhpFieldForAggregate(
     {
     case AggregateLocationProcessNode:
         object = ProcessNode;
+        break;
+    case AggregateLocationProcessChildren:
+        object = ProcessNode->Children;
         break;
     case AggregateLocationProcessItem:
         object = ProcessNode->ProcessItem;
@@ -2654,7 +2658,19 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
             switch (getCellText->Id)
             {
             case PHPRTLC_NAME:
-                getCellText->Text = PhGetStringRef(processItem->ProcessName);
+                {
+                    if (!PhCsPropagateCpuUsage || node->Node.Expanded || ProcessTreeListSortOrder != NoSortOrder)
+                    {
+                        getCellText->Text = PhGetStringRef(processItem->ProcessName);
+                    }
+                    else
+                    {
+                        ULONG value = 0;
+                        PhpAggregateFieldIfNeeded(node, AggregateTypeInt32, AggregateLocationProcessChildren, FIELD_OFFSET(PH_LIST, Count), &value);
+                        node->ProcessNameAggregate = PhFormatString(L"%s (+%d)", processItem->ProcessName->Buffer, value);
+                        getCellText->Text = PhGetStringRef(node->ProcessNameAggregate);
+                    }
+                }
                 break;
             case PHPRTLC_PID:
                 {
