@@ -2709,8 +2709,15 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     {
                         ULONG value = 0;
                         PhpAggregateFieldIfNeeded(node, AggregateTypeInt32, AggregateLocationProcessChildren, FIELD_OFFSET(PH_LIST, Count), &value);
-                        node->ProcessNameAggregate = PhFormatString(L"%s (+%d)", processItem->ProcessName->Buffer, value);
-                        getCellText->Text = PhGetStringRef(node->ProcessNameAggregate);
+                        if (value == 0)
+                        {
+                            getCellText->Text = PhGetStringRef(processItem->ProcessName);
+                        }
+                        else
+                        {
+                            node->ProcessNameAggregate = PhFormatString(L"%s (+%d)", processItem->ProcessName->Buffer, value);
+                            getCellText->Text = PhGetStringRef(node->ProcessNameAggregate);
+                        }
                     }
                 }
                 break;
