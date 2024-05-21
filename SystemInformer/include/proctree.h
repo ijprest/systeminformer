@@ -172,6 +172,7 @@ typedef struct _PH_PROCESS_NODE
 // end_phapppub
 
     PH_STRINGREF TextCache[PHPRTLC_MAXIMUM];
+    COLORREF CellColorCache[PHPRTLC_MAXIMUM];
 
     // If the user has selected certain columns we need extra information that isn't retrieved by
     // the process provider.

@@ -119,6 +119,13 @@ EXT ULONG PhCsColorServiceDisabled;
 EXT ULONG PhCsUseColorServiceStop;
 EXT ULONG PhCsColorServiceStop;
 
+EXT ULONG PhCsUseColorColumnCPU;
+EXT ULONG PhCsColorColumnCPU;
+EXT ULONG PhCsUseColorColumnPrivateBytes;
+EXT ULONG PhCsColorColumnPrivateBytes;
+EXT ULONG PhCsUseColorColumnWorkingSet;
+EXT ULONG PhCsColorColumnWorkingSet;
+
 EXT BOOLEAN PhEnableImageCoherencySupport;
 EXT ULONG PhCsImageCoherencyScanLevel;
 EXT BOOLEAN PhCsEnableGraphMaxScale;
